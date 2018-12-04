@@ -171,7 +171,7 @@ class APIServer {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({result: result, message: message}));
 
-        })
+        });
 
         this.app.get('/question-answer/:device/:id/:answer', async (req, res)=>{
 
@@ -188,13 +188,20 @@ class APIServer {
                 if (!question) throw "Question was not found";
 
                 if (answer === question.answers[0]){
+
                     message = "Correct";
+
+                } else {
+                    message = "Incorrect";
+                }
+
+
+                //check if the question is still in time
+                if (QuestionSchema.statics.findActiveQuestion().id.toString() === id ){
 
                     await AnswerSchema.statics.saveAnswer(device, question._id.toString());
                     await RankingSchema.statics.updateRanking( device );
 
-                } else {
-                    message = "Incorrect";
                 }
 
                 result = true;
@@ -206,7 +213,7 @@ class APIServer {
             res.setHeader('Content-Type', 'application/json');
             res.send(JSON.stringify({result: result, message: message}));
 
-        })
+        });
 
         this.app.get('/ranking-top-100', async (req, res)=>{
 

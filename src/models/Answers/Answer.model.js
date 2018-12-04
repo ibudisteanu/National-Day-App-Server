@@ -6,6 +6,7 @@ let AnswerSchema = new mongoose.Schema({
 
     device: {type: String},
     question: {type: ObjectId},
+    correct: {type: Boolean},
     dtCreation: { type: Date, default:  new Date() },
 
 });
@@ -28,7 +29,13 @@ AnswerSchema.statics.findAllByDevice = ( device  ) => {
 
 };
 
-AnswerSchema.statics.saveAnswer =  async ( device, question) => {
+AnswerSchema.statics.findAllCorrectByDevice = ( device  ) => {
+
+    return AnswerModel.find ( { device: device, correct: true }).sort({'question': -1}).limit(100);
+
+};
+
+AnswerSchema.statics.saveAnswer =  async ( device, question, correct) => {
 
     let answer = await AnswerSchema.statics.findAnswer(device, question);
     if (answer) return answer;
@@ -36,6 +43,7 @@ AnswerSchema.statics.saveAnswer =  async ( device, question) => {
     answer = new AnswerModel({
         device: device,
         question: ObjectId(question),
+        correct: correct,
     });
 
     return answer.save();
