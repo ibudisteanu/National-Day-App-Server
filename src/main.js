@@ -132,6 +132,20 @@ class APIServer {
 
         });
 
+        this.app.get('/'+consts.SECRET.HTTP+'/get-active-question', async (req, res)=>{
+
+            let question = await QuestionSchema.statics.findActiveQuestion(  );
+
+            let data = {question: undefined};
+
+            if (question !== null){
+                data.question = question.toJSON(false);
+            }
+
+            res.setHeader('Content-Type', 'application/json');
+            res.send( JSON.stringify(data) );
+
+        });
 
         this.app.get('/new-questions/:id', async (req, res)=>{
 

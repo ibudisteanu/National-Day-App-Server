@@ -18,7 +18,15 @@ QuestionSchema.statics.findQuestion = ( id ) => {
 
 QuestionSchema.statics.findAll = (  ) => {
 
-    return QuestionModel.find ( { });
+    return QuestionModel.find ( { dtTime: { $lte : new Date() } } );
+
+};
+
+QuestionSchema.statics.findActiveQuestion = (  ) => {
+
+    let time = new Date().getTime();
+
+    return QuestionModel.findOnce ( { dtTime: { $lte : new Date( time + 10*60*1000 ), $gte : new Date(time) } } );
 
 };
 
