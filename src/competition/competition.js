@@ -24,7 +24,7 @@ class Competition{
             this.question.deadline = new Date( this.lastTime + 10*60*1000 );
 
 
-            this.questionRoundItem = Math.floor( Math.random()*1000000000 ) + "_" + Math.floor( Math.random()*1000000000 );
+            this.questionItem = Math.floor( Math.random()*1000000000 ) + "_" + Math.floor( Math.random()*1000000000 );
 
             let title = this.question.title;
             let body = "Răspunde acum la intrebarea din competiţie ca să primeşti puncte!";
@@ -37,17 +37,12 @@ class Competition{
         if (new Date().getTime() - this.lastTime > 10*60*1000){
 
             this.question = undefined;
-            this.questionRoundItem = '';
+            this.questionItem = '';
 
         }
 
     }
 
-    get questionActive(){
-
-        return new Date().getTime() - this.lastTime > 10*60*1000;
-
-    }
 
 }
 

@@ -6,14 +6,15 @@ let AnswerSchema = new mongoose.Schema({
 
     device: {type: String},
     question: {type: ObjectId},
+    questionItem: {type: String},
     correct: {type: Boolean},
     dtCreation: { type: Date, default:  new Date() },
 
 });
 
-AnswerSchema.statics.findAnswer = ( device, question ) => {
+AnswerSchema.statics.findAnswer = ( device, question, questionItem ) => {
 
-    return AnswerModel.findOne ({ 'device' : device, 'question': ObjectId(question) });
+    return AnswerModel.findOne ({ 'device' : device, 'question': ObjectId(question), "questionItem": questionItem });
 
 };
 
@@ -35,14 +36,15 @@ AnswerSchema.statics.findAllCorrectByDevice = ( device  ) => {
 
 };
 
-AnswerSchema.statics.saveAnswer =  async ( device, question, correct) => {
+AnswerSchema.statics.saveAnswer =  async ( device, question, questionItem, correct) => {
 
-    let answer = await AnswerSchema.statics.findAnswer(device, question);
+    let answer = await AnswerSchema.statics.findAnswer(device, question, questionItem);
     if (answer) return answer;
 
     answer = new AnswerModel({
         device: device,
         question: ObjectId(question),
+        questionItem: questionItem,
         correct: correct,
     });
 

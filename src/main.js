@@ -201,9 +201,9 @@ class APIServer {
 
 
                 //check if the question is still in time
-                if (QuestionSchema.statics.findActiveQuestion().id.toString() === id ){
+                if (Competition.question !== undefined && Competition.question.id.toString() === id ){
 
-                    await AnswerSchema.statics.saveAnswer(device, question._id.toString());
+                    await AnswerSchema.statics.saveAnswer( device, question._id.toString(), Competition.questionItem, message === "Correct" );
                     await RankingSchema.statics.updateRanking( device );
 
                 }
@@ -269,8 +269,6 @@ class APIServer {
         });
 
         initializePushNotifications(this.app);
-
-         PushNotificationsViaFirebase.sendRequest();
 
     }
 
