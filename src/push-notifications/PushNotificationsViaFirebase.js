@@ -9,7 +9,7 @@ class PushNotificationsViaFirebase{
 
     }
 
-    async sendRequest(){
+    async sendRequest(title, body){
 
         var options = {
             method: 'POST',
@@ -19,22 +19,20 @@ class PushNotificationsViaFirebase{
                 "Authorization": 'key='+consts.FIREBASE_SECRET
             },
             body: {
-                to: "/topics/test-channel",
+                to: "/topics/allDevices",
+                priority : "high",
                 data: {
-                    message: "xxx",
+                    message: "notificare",
                 },
-                message:{
-                    topic: "notificare-automata",
-                    notification: {
-                        body: "Notificare",
-                        title: "TITLU",
-                    }
+                notification: {
+                    body: body,
+                    title: title,
                 }
             },
             json: true // Automatically stringifies the body to JSON
         };
 
-        console.log("sendingRequest")
+        console.log("sendingRequest");
 
         try {
 

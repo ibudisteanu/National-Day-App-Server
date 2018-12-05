@@ -28,6 +28,7 @@ import {RankingModel, RankingSchema} from "src/models/Ranking/Ranking.model"
 import {initializePushNotifications} from "src/push-notifications/PushNotifications"
 
 import PushNotificationsViaFirebase from "src/push-notifications/PushNotificationsViaFirebase"
+import Competition from "src/competition/competition"
 
 class APIServer {
 
@@ -136,12 +137,13 @@ class APIServer {
 
         this.app.get('/'+consts.SECRET.HTTP+'/get-active-question', async (req, res)=>{
 
-            let question = await QuestionSchema.statics.findActiveQuestion(  );
+            let question = Competition.question;
 
-            let data = {question: undefined};
+            if (question !== null &&  question !== undefined){
 
-            if (question !== null){
+                let data = {question: undefined};
                 data.question = question.toJSON(false);
+
             }
 
             res.setHeader('Content-Type', 'application/json');

@@ -22,18 +22,13 @@ QuestionSchema.statics.findAll = (  ) => {
 
 };
 
-QuestionSchema.statics.findActiveQuestion = (  ) => {
+QuestionSchema.statics.findRandomQuestion = async ()=>{
 
-    let time = new Date().getTime();
-    let deadline = new Date( time + 10*60*1000 );
+    let index = Math.floor (  Math.random()* (await QuestionSchema.statics.findAll()).length  );
+    console.log(index);
+    return QuestionModel.findOne().skip( index );
 
-    let question = QuestionModel.findOnce ( { dtTime: { $lte : deadline, $gte : new Date(time) } } );
-
-    question.dtExpiration = new Date(deadline);
-
-    return question;
-
-};
+}
 
 QuestionSchema.statics.findAllAfterId = ( id ) => {
 
