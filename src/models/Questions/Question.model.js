@@ -80,7 +80,7 @@ QuestionSchema.methods.toJSON = function ( scramble = true )  {
         dtTime: this.dtTime.getTime(),
         dtCreation: this.dtCreation.getTime(),
         answers: this.answers,
-        deadline: (this.dtExpiration !== undefined ? this.dtExpiration.getTime() : undefined),
+        deadline: (this.deadline !== undefined ? this.deadline.getTime() : undefined),
     };
 
     if (scramble){

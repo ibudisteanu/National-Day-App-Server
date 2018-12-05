@@ -191,7 +191,8 @@ class APIServer {
 
                 if (!question) throw "Question was not found";
 
-                if (answer === question.answers[0]){
+
+                if ( answer.trim() === question.answers[0].trim() ){
 
                     message = "Correct";
 
