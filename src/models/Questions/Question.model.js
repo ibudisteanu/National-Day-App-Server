@@ -28,11 +28,21 @@ QuestionSchema.statics.findAllAvailable = (  ) => {
 
 };
 
+QuestionSchema.statics.findAllUnavailable = (  ) => {
+
+    return QuestionModel.find ( { available: false, dtTime: { $lte : new Date() } } );
+
+};
+
 QuestionSchema.statics.findRandomQuestion = async ()=>{
 
-    let index = Math.floor (  Math.random()* (await QuestionSchema.statics.findAll()).length  );
+    let list = await QuestionSchema.statics.findAllUnavailable();
+
+    let index = Math.floor (  Math.random()* list.length  );
+
     console.log(index);
-    return QuestionModel.findOne().skip( index );
+
+    return list[index];
 
 };
 

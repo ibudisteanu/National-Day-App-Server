@@ -135,13 +135,13 @@ class APIServer {
 
         });
 
-        this.app.get('/'+consts.SECRET.HTTP+'/get-active-question', async (req, res)=>{
+        this.app.get('/get-active-question', async (req, res)=>{
 
             let question = Competition.question;
 
+            let data = {question: undefined};
             if (question !== null &&  question !== undefined){
 
-                let data = {question: undefined};
                 data.question = question.toJSON(false);
 
             }
