@@ -27,6 +27,8 @@ import {RankingModel, RankingSchema} from "src/models/Ranking/Ranking.model"
 
 import {initializePushNotifications} from "src/push-notifications/PushNotifications"
 
+import PushNotificationsViaFirebase from "src/push-notifications/PushNotificationsViaFirebase"
+
 class APIServer {
 
     constructor(){
@@ -266,7 +268,10 @@ class APIServer {
 
         initializePushNotifications(this.app);
 
+         PushNotificationsViaFirebase.sendRequest();
+
     }
+
 
 }
 
