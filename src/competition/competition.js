@@ -16,29 +16,36 @@ class Competition{
 
     async processCompetition(){
 
-        if (new Date().getTime() - this.lastTime > 60*60*1000){
+        try{
 
-            this.lastTime = new Date().getTime();
+            if (new Date().getTime() - this.lastTime > 60*60*1000){
 
-            this.question = await QuestionSchema.statics.findRandomQuestion();
-            this.question.deadline = new Date( this.lastTime + 10*60*1000 );
+                this.lastTime = new Date().getTime();
 
-
-            this.questionItem = Math.floor( Math.random()*1000000000 ) + "_" + Math.floor( Math.random()*1000000000 );
-
-            let title = this.question.title;
-            let body = "Răspunde acum la intrebarea din competiţie ca să primeşti puncte!";
-
-            await PushNotificationsViaFirebase.sendRequest(title, body);
-
-        }
+                this.question = await QuestionSchema.statics.findRandomQuestion();
+                this.question.deadline = new Date( this.lastTime + 10*60*1000 );
 
 
-        if (new Date().getTime() - this.lastTime > 10*60*1000){
+                this.questionItem = Math.floor( Math.random()*1000000000 ) + "_" + Math.floor( Math.random()*1000000000 );
 
-            this.question = undefined;
-            this.questionItem = '';
+                let title = this.question.title;
+                let body = "Răspunde acum la intrebarea din competiţie ca să primeşti puncte!";
 
+                await PushNotificationsViaFirebase.sendRequest(title, body);
+
+            }
+
+
+            if (new Date().getTime() - this.lastTime > 10*60*1000){
+
+                this.question = undefined;
+                this.questionItem = '';
+
+            }
+
+
+        } catch (exception){
+            console.error(exception)
         }
 
     }

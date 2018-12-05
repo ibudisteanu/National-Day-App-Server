@@ -4,7 +4,7 @@ let QuestionSchema = new mongoose.Schema({
 
     title: { type: String, default: '' },
     answers: { type: Array, default: '' },
-
+    available: {type: Boolean, default: true},
     dtCreation: { type: Date, default:  new Date() },
     dtTime: { type: Date, default:  new Date() },
 
@@ -22,19 +22,25 @@ QuestionSchema.statics.findAll = (  ) => {
 
 };
 
+QuestionSchema.statics.findAllAvailable = (  ) => {
+
+    return QuestionModel.find ( { available: true, dtTime: { $lte : new Date() } } );
+
+};
+
 QuestionSchema.statics.findRandomQuestion = async ()=>{
 
     let index = Math.floor (  Math.random()* (await QuestionSchema.statics.findAll()).length  );
     console.log(index);
     return QuestionModel.findOne().skip( index );
 
-}
+};
 
-QuestionSchema.statics.findAllAfterId = ( id ) => {
+QuestionSchema.statics.findAllAvailableAfterId = ( id ) => {
 
     if (id.length < 24) id = "0000000000013b2c643f1216";
 
-    return QuestionModel.find ( { _id : { $gt: ObjectId(id) }, dtTime: { $lte : new Date() } });
+    return QuestionModel.find ( { available: true, _id : { $gt: ObjectId(id) }, dtTime: { $lte : new Date() } });
 
 };
 

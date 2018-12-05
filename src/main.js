@@ -124,7 +124,7 @@ class APIServer {
 
         this.app.get('/'+consts.SECRET.HTTP+'/list-questions', async (req, res)=>{
 
-            let questions = await QuestionSchema.statics.findAll(  );
+            let questions = await QuestionSchema.statics.findAllAvailable(  );
             let result = [];
             for (let i=0; i < questions.length; i++)
                 result.push(questions[i].toJSON(false))
@@ -159,7 +159,7 @@ class APIServer {
 
                 let id = req.params.id;
 
-                let questions = await QuestionSchema.statics.findAllAfterId(id);
+                let questions = await QuestionSchema.statics.findAllAvailableAfterId(id);
 
                 message = [];
                 for (let i=0; i<questions.length; i++ )
