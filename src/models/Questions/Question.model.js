@@ -25,8 +25,13 @@ QuestionSchema.statics.findAll = (  ) => {
 QuestionSchema.statics.findActiveQuestion = (  ) => {
 
     let time = new Date().getTime();
+    let deadline = new Date( time + 10*60*1000 );
 
-    return QuestionModel.findOnce ( { dtTime: { $lte : new Date( time + 10*60*1000 ), $gte : new Date(time) } } );
+    let question = QuestionModel.findOnce ( { dtTime: { $lte : deadline, $gte : new Date(time) } } );
+
+    question.dtExpiration = new Date(deadline);
+
+    return question;
 
 };
 
@@ -63,8 +68,9 @@ QuestionSchema.methods.toJSON = function ( scramble = true )  {
         title: this.title,
         dtTime: this.dtTime.getTime(),
         dtCreation: this.dtCreation.getTime(),
-        answers: this.answers
-    }
+        answers: this.answers,
+        deadline: (this.dtExpiration !== undefined ? this.dtExpiration.getTime() : undefined),
+    };
 
     if (scramble){
         properties.answers = shuffle(properties.answers);

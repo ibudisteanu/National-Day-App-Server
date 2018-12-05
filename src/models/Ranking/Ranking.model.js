@@ -51,9 +51,11 @@ RankingSchema.statics.updateRanking =  async ( device ) => {
     let ranking = await RankingModel.findOne({device: device});
 
     if (!ranking){
+
         ranking = new RankingModel({
             device: device
         })
+
     }
 
     let answers = await AnswerSchema.statics.findAllCorrectByDevice(device);
